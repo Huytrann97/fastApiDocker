@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pydantic
+Pillow
+azure-ai-formrecognizer
+python-multipart
