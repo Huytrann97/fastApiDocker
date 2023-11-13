@@ -10,6 +10,8 @@ from .utils import delete_image
 
 from PIL import Image
 import io
+from dotenv import load_dotenv
+load_dotenv()
 
 #-----------set value here------------#
 
@@ -20,9 +22,8 @@ import io
 #     url = image_file.read()
 
 def process_document(imageName):
-    key = "9a9c92366d7941c1b9cc87228d463a03"
-    endpoint = "https://eastus.api.cognitive.microsoft.com/"
-
+    AZURE_KEY = os.getenv("AZURE_KEY")
+    AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
     start_timee = time.time()
     classifier_id = None
     if os.getenv("CLASSIFIER_CONTAINER_SAS_URL") and not os.getenv("CLASSIFIER_ID"):
@@ -38,7 +39,7 @@ def process_document(imageName):
         blob_container_sas_url = os.environ["CLASSIFIER_CONTAINER_SAS_URL"]
 
         document_model_admin_client = DocumentModelAdministrationClient(
-            endpoint=endpoint, credential=AzureKeyCredential(key)
+            endpoint=AZURE_ENDPOINT, credential=AzureKeyCredential(AZURE_KEY)
         )
 
         poller = document_model_admin_client.begin_build_document_classifier(
@@ -73,7 +74,7 @@ def process_document(imageName):
         url = image_file.read()
     #----------------------
 
-    document = analyse_document(endpoint, key , "anaylyse_document", url)
+    document = analyse_document(AZURE_ENDPOINT, AZURE_KEY , "anaylyse_document", url)
     documentType = document[0]["type"]
     documentConfidence = document[0]["confidence"]
 
@@ -84,13 +85,13 @@ def process_document(imageName):
         print("\nExtracting text  ")
         match documentType:
             case "lisense":
-                reesponse = extract_text(key, endpoint, url, "lisence")
+                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "lisence")
             case "my_number":
-                reesponse = extract_text(key, endpoint, url, "my_number")
+                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "my_number")
             case "residence_card":
-                reesponse = extract_text(key, endpoint, url, "residence_card")
+                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "residence_card")
             case "passport":
-                reesponse = extract_passport(key, endpoint, url)
+                reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
             
             case other:
                 print("please try other image ")
