@@ -4,3 +4,5 @@ pydantic
 Pillow
 azure-ai-formrecognizer
 python-multipart
+boto3
+python-dotenv

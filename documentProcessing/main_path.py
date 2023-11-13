@@ -20,7 +20,7 @@ import io
 #     url = image_file.read()
 
 def process_document(imageName):
-    key = "9a9c92366d7941c1b9cc87228d463a0"
+    key = "9a9c92366d7941c1b9cc87228d463a03"
     endpoint = "https://eastus.api.cognitive.microsoft.com/"
 
     start_timee = time.time()
