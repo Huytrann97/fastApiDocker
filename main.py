@@ -35,9 +35,8 @@ async def upload(file: UploadFile = File(...)):
         print("successfully uploaded to local")
 
     # Replace 'your_destination_key' with the desired key in your S3 bucket
-    destination_key = f"your_destination_key/{file.filename}"
     if file:
-        uploaded = upload_image_to_s3(file.file, file.filename)
+        uploaded= upload_image_to_s3(file.filename)
         if uploaded:
             return "File uploaded successfully to S3."
         else:
