@@ -6,12 +6,13 @@ from classifyDocument import analyse_document
 from extractText1 import extract_text, print_result
 from extractPassport import extract_passport
 from concurrent.futures import ThreadPoolExecutor
-#-----------set value here------------#
+
+# -----------set value here------------#
 print()
 key = ""
 endpoint = "https://eastus.api.cognitive.microsoft.com/"
 url = "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/373483333_720806080085391_8759204674535948605_n.png?_nc_cat=101&ccb=1-7&_nc_sid=8cd0a2&_nc_ohc=S20DrnQ3xpwAX8ixdNr&_nc_ht=scontent.fdad2-1.fna&oh=03_AdSRvrpeDhzhpC_q76x1nscHL5olKYAcGu37h_ukfecoEg&oe=65759087"
-#--------------------------------------#
+# --------------------------------------#
 
 if __name__ == "__main__":
     from azure.core.exceptions import HttpResponseError
@@ -57,12 +58,16 @@ if __name__ == "__main__":
         elapsed_timee = end_timee - start_timee
         print(f"Time to call 1 : {elapsed_timee:.2f} seconds")
 
-#-----------main logic------------#
+        # -----------main logic------------#
         start_time = time.time()
 
         with ThreadPoolExecutor(max_workers=2) as executor:
-            future1 = executor.submit(analyse_document, endpoint, key, "anaylyse_document", url)
-            future2 = executor.submit(extract_text, key, endpoint, url, "residence_card")
+            future1 = executor.submit(
+                analyse_document, endpoint, key, "anaylyse_document", url
+            )
+            future2 = executor.submit(
+                extract_text, key, endpoint, url, "residence_card"
+            )
 
             document = future1.result()
             print(document)
@@ -72,17 +77,17 @@ if __name__ == "__main__":
             print(documentConfidence)
 
         if documentConfidence >= 0.5:
-            print("Document type: ", documentType,"  confidence", documentConfidence)
+            print("Document type: ", documentType, "  confidence", documentConfidence)
             match documentType:
                 # case "lisense":
                 #     extract_text(key, endpoint, url, "lisence")
                 # case "my_number":
                 #     extract_text(key, endpoint, url, "my_number")
                 case "residence_card":
-                    print("\n" ,print_result(future2.result()))
+                    print("\n", print_result(future2.result()))
                 # case "passport":
                 #     extract_passport(key, endpoint, url)
-                
+
                 case other:
                     print("please try other image ")
 
@@ -91,7 +96,7 @@ if __name__ == "__main__":
         end_time = time.time()
         elapsed_time = end_time - start_time
         print(f"Time taken to execute: {elapsed_time:.2f} seconds")
-#-------------------------------#
+    # -------------------------------#
 
     except HttpResponseError as error:
         print(

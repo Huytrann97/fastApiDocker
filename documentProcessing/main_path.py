@@ -11,15 +11,17 @@ from .utils import delete_image
 from PIL import Image
 import io
 from dotenv import load_dotenv
+
 load_dotenv()
 
-#-----------set value here------------#
+# -----------set value here------------#
 
 # url = "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/373483333_720806080085391_8759204674535948605_n.png?_nc_cat=101&ccb=1-7&_nc_sid=8cd0a2&_nc_ohc=S20DrnQ3xpwAX8ixdNr&_nc_ht=scontent.fdad2-1.fna&oh=03_AdSRvrpeDhzhpC_q76x1nscHL5olKYAcGu37h_ukfecoEg&oe=65759087"
 
 # image_path = "image1.jpg"
 # with open(image_path, "rb") as image_file:
 #     url = image_file.read()
+
 
 def process_document(imageName):
     AZURE_KEY = os.getenv("AZURE_KEY")
@@ -64,24 +66,23 @@ def process_document(imageName):
     elapsed_timee = end_timee - start_timee
     print(f"Time to call 1 : {elapsed_timee:.2f} seconds")
 
-#-----------main logic------------#
+    # -----------main logic------------#
     start_time = time.time()
 
-
     # ---------------note here: url is image file
-    image_path = "processing_image/"+imageName
+    image_path = "processing_image/" + imageName
     with open(image_path, "rb") as image_file:
         url = image_file.read()
-    #----------------------
+    # ----------------------
 
-    document = analyse_document(AZURE_ENDPOINT, AZURE_KEY , "addVietnameseIdCard", url)
+    document = analyse_document(AZURE_ENDPOINT, AZURE_KEY, "addVietnameseIdCard", url)
     documentType = document[0]["type"]
     documentConfidence = document[0]["confidence"]
 
     reesponse = ""
 
-    if documentConfidence >= 0.5:
-        print("Document type: ", documentType,"  confidence", documentConfidence)
+    if documentConfidence >= 0.3:
+        print("Document type: ", documentType, "  confidence", documentConfidence)
         print("\nExtracting text  ")
         match documentType:
             case "lisense":
@@ -89,21 +90,24 @@ def process_document(imageName):
             case "my_number":
                 reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "my_number")
             case "residence_card":
-                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "residence_card")
+                reesponse = extract_text(
+                    AZURE_KEY, AZURE_ENDPOINT, url, "residence_card"
+                )
             case "passport":
                 reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
             case "Vietnamese Identity Card":
-                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard")
-            
+                reesponse = extract_text(
+                    AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard"
+                )
+
             case other:
                 print("please try other image ")
-                reesponse ="please try other image "
+                reesponse = "please try other image "
 
     else:
         print("Document not found, please try other image")
-        reesponse ="Document not found, please try other image"
+        reesponse = "Document not found, please try other image"
 
-    
     delete_image(imageName)
 
     end_time = time.time()
@@ -111,11 +115,11 @@ def process_document(imageName):
     print(f"Time taken to execute: {elapsed_time:.2f} seconds")
 
     return reesponse
-#--------------------------------------#
+
+
+# --------------------------------------#
 
 if __name__ == "__main__":
-    process_document( "url")
-        
-#-------------------------------#
+    process_document("url")
 
-   
+# -------------------------------#

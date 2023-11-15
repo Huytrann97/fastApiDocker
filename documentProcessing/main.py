@@ -6,11 +6,12 @@ from .classifyDocument import analyse_document
 from .extractText import extract_text
 from .extractPassport import extract_passport
 
-#-----------set value here------------#
+# -----------set value here------------#
 
 url = "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.15752-9/373483333_720806080085391_8759204674535948605_n.png?_nc_cat=101&ccb=1-7&_nc_sid=8cd0a2&_nc_ohc=S20DrnQ3xpwAX8ixdNr&_nc_ht=scontent.fdad2-1.fna&oh=03_AdSRvrpeDhzhpC_q76x1nscHL5olKYAcGu37h_ukfecoEg&oe=65759087"
 
-def process_document(  url):
+
+def process_document(url):
     key = ""
     endpoint = "https://eastus.api.cognitive.microsoft.com/"
     start_timee = time.time()
@@ -53,15 +54,15 @@ def process_document(  url):
     elapsed_timee = end_timee - start_timee
     print(f"Time to call 1 : {elapsed_timee:.2f} seconds")
 
-#-----------main logic------------#
+    # -----------main logic------------#
     start_time = time.time()
 
-    document = analyse_document(endpoint, key , "anaylyse_document", url)
+    document = analyse_document(endpoint, key, "anaylyse_document", url)
     documentType = document[0]["type"]
     documentConfidence = document[0]["confidence"]
 
     if documentConfidence >= 0.5:
-        print("Document type: ", documentType,"  confidence", documentConfidence)
+        print("Document type: ", documentType, "  confidence", documentConfidence)
         print("\nExtracting text  ")
         match documentType:
             case "lisense":
@@ -72,7 +73,7 @@ def process_document(  url):
                 return extract_text(key, endpoint, url, "residence_card")
             case "passport":
                 return extract_passport(key, endpoint, url)
-            
+
             case other:
                 print("please try other image ")
 
@@ -83,11 +84,9 @@ def process_document(  url):
     print(f"Time taken to execute: {elapsed_time:.2f} seconds")
 
 
-#--------------------------------------#
+# --------------------------------------#
 
 if __name__ == "__main__":
-    process_document( url)
-        
-#-------------------------------#
+    process_document(url)
 
-   
+# -------------------------------#
