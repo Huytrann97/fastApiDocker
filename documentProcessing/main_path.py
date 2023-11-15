@@ -74,7 +74,7 @@ def process_document(imageName):
         url = image_file.read()
     #----------------------
 
-    document = analyse_document(AZURE_ENDPOINT, AZURE_KEY , "anaylyse_document", url)
+    document = analyse_document(AZURE_ENDPOINT, AZURE_KEY , "addVietnameseIdCard", url)
     documentType = document[0]["type"]
     documentConfidence = document[0]["confidence"]
 
@@ -92,6 +92,8 @@ def process_document(imageName):
                 reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "residence_card")
             case "passport":
                 reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
+            case "Vietnamese Identity Card":
+                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard")
             
             case other:
                 print("please try other image ")

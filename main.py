@@ -8,7 +8,6 @@ import shutil
 from documentProcessing.main_path import process_document
 from documentProcessing.uploadS3 import upload_image_to_s3
 
-
 from PIL import Image
 import io
 
