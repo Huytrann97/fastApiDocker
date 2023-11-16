@@ -12,6 +12,9 @@ from PIL import Image
 import io
 from dotenv import load_dotenv
 
+from sqlalchemy.orm import Session
+
+
 load_dotenv()
 
 # -----------set value here------------#
@@ -86,19 +89,19 @@ def process_document(imageName):
         print("\nExtracting text  ")
         match documentType:
             case "lisense":
-                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "lisence")
-            case "my_number":
-                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "my_number")
-            case "residence_card":
-                reesponse = extract_text(
-                    AZURE_KEY, AZURE_ENDPOINT, url, "residence_card"
-                )
-            case "passport":
-                reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
-            case "Vietnamese Identity Card":
-                reesponse = extract_text(
-                    AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard"
-                )
+                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "lisence", imageName)
+            # case "my_number":
+            #     reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "my_number")
+            # case "residence_card":
+            #     reesponse = extract_text(
+            #         AZURE_KEY, AZURE_ENDPOINT, url, "residence_card"
+            #     )
+            # case "passport":
+            #     reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
+            # case "Vietnamese Identity Card":
+            #     reesponse = extract_text(
+            #         AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard"
+            #     )
 
             case other:
                 print("please try other image ")

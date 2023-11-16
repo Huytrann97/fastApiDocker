@@ -2,7 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-URL_DATABASE = "mysql+pymysql://root:Asdasd123@@localhost:3306/CardInfo"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+# Thay thế URL_DATABASE với thông tin kết nối JawsDB MySQL của bạn
+URL_DATABASE = os.getenv("JAWSDB_URL")
 
 engine = create_engine(URL_DATABASE)
 
