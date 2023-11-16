@@ -7,7 +7,7 @@ class Card(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, index=True, unique=True)
-    front_image_url = Column(String(100))
+    front_image_url = Column(String(60))
 
 class User(Base):
     __tablename__ = "card_informations"

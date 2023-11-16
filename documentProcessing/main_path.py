@@ -90,18 +90,18 @@ def process_document(imageName):
         match documentType:
             case "lisense":
                 reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "lisence", imageName)
-            # case "my_number":
-            #     reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "my_number")
-            # case "residence_card":
-            #     reesponse = extract_text(
-            #         AZURE_KEY, AZURE_ENDPOINT, url, "residence_card"
-            #     )
-            # case "passport":
-            #     reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
-            # case "Vietnamese Identity Card":
-            #     reesponse = extract_text(
-            #         AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard"
-            #     )
+            case "my_number":
+                reesponse = extract_text(AZURE_KEY, AZURE_ENDPOINT, url, "my_number", imageName)
+            case "residence_card":
+                reesponse = extract_text(
+                    AZURE_KEY, AZURE_ENDPOINT, url, "residence_card", imageName
+                )
+            case "passport":
+                reesponse = extract_passport(AZURE_KEY, AZURE_ENDPOINT, url)
+            case "Vietnamese Identity Card":
+                reesponse = extract_text(
+                    AZURE_KEY, AZURE_ENDPOINT, url, "VietnameseIdCard",imageName
+                )
 
             case other:
                 print("please try other image ")
