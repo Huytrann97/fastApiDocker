@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Thay thế URL_DATABASE với thông tin kết nối JawsDB MySQL của bạn
-URL_DATABASE = os.getenv("JAWSDB_URL")
+# URL_DATABASE = os.getenv("JAWSDB_URL")
 
-engine = create_engine(URL_DATABASE)
+engine = create_engine(os.getenv("JAWSDB_URL"))
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
