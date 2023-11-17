@@ -22,38 +22,12 @@ app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
 
-def get_db():
-    try:
-        db = SessionLocal()
-        yield db
-    finally:
-        db.close()
-
 class User(BaseModel):
     card_id: str
     full_name: str
     birthday: str
     address: str
     expire_date: str
-
-@app.post("/")
-def create_info(user: User, db: Session = Depends(get_db)):
-    db_user = models.User()
-    db_user.card_id = user.card_id
-    db_user.full_name = user.full_name
-    db_user.birthday = user.birthday
-    db_user.address = user.address
-    db_user.expire_date = user.expire_date
-    
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-@app.get("/<imageName>")
-def read_image(imageName):
-    result = process_document(imageName)
-    return {"Result": result}
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
@@ -75,3 +49,7 @@ async def upload(file: UploadFile = File(...)):
             return "Error in uploading to S3."
     else:
         return "No file provided for upload."
+@app.get("/<imageName>")
+def read_image(imageName):
+    result = process_document(imageName)
+    return {"Result": result}
